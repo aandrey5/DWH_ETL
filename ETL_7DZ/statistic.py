@@ -1,5 +1,5 @@
 from utils import DataFlowBaseOperator
-
+import logging
 import psycopg2
 import datetime
 import time
@@ -68,9 +68,13 @@ class DataStatisticPostgres(DataFlowBaseOperator):
                         # -----------------------------------------------------------
                         column_cursor.execute(f"select count({column}) from {table} "
                                               f"where {column} is null;")
+                        #logging.info(cnt_null_data)
+                        #self.log.info(cnt_null_data)
                         cnt_null_data = column_cursor.fetchone()[0]
                         column_cur.update(cnt_nulls=cnt_null_data)
                         self.config.update(cnt_nulls=cnt_null_data)
+                        logging.info(cnt_null_data)
+                        self.log.info(cnt_null_data)
                         # -----------------------------------------------------------
                         dct = {f'{column}': column_cur}
                         columns_data.update(dct)
