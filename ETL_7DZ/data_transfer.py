@@ -1,7 +1,7 @@
-
 import logging
 import os
 import time
+import datetime
 import psycopg2
 from contextlib import contextmanager
 from airflow.models import BaseOperator
@@ -14,6 +14,10 @@ class DataTransfer(DataFlowBaseOperator): # modify
     @apply_defaults
     def __init__(self, config, pg_conn_str, pg_meta_conn_str, date_check=False, *args, **kwargs):
         super(DataTransfer, self).__init__(
+            config = config,
+            pg_conn_str = pg_conn_str,
+            pg_meta_conn_str = pg_meta_conn_str,
+
             *args,
             **kwargs
         )
@@ -27,7 +31,7 @@ class DataTransfer(DataFlowBaseOperator): # modify
 
     def execute(self, context):
         copy_statement = """
-        COPY {target_schema}.{target_table} ({columns}, launch_id as {job_id}) FROM STDIN with
+        COPY {target_schema}.{target_table} ({columns}) FROM STDIN with
         DELIMITER '\t'
         CSV
         ESCAPE '\\'

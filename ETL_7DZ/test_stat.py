@@ -1,16 +1,15 @@
 import sys, os
-#sys.path.append('/usr/local/airflow/dags')
-from postgres  import DataTransferPostgres
+from postgres import DataTransferPostgres
 from airflow import DAG
 from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from postgres import table_list
 from statistic import DataStatisticPostgres
 from datetime import datetime
+sys.path.append('/usr/local/airflow/dags')
 
-
-connect = {'src': "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-           'dest': "host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-           'meta': "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'"}
+connect = {'src': "host='172.18.0.1' port=54320 dbname='my_database' user='root' password='postgres'",
+           'dest': "host='172.18.0.1' port=5433 dbname='my_database' user='root' password='postgres'",
+           'meta': "host='172.18.0.1' port=54320 dbname='my_database' user='root' password='postgres'"}
 
 
 DEFAULT_ARGS = {
@@ -29,7 +28,7 @@ with DAG(
     max_active_runs=1,
     tags=['data-statistics'],
 ) as dag1:
-    for tab in table_list(connect['src']):
+    for tab in table_list(connect['dest']): # modify new
        sens_task = ExternalTaskSensor(
             task_id=f'{tab}_sens',
             external_dag_id="pg-data-flow-444",

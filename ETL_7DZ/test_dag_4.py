@@ -1,11 +1,10 @@
 from airflow import DAG
+from postgres import DataTransferPostgres
+from datetime import datetime
+from test_stat import connect
 
 import sys, os
-#sys.path.append('/usr/local/airflow/dags')
-from postgres  import DataTransferPostgres
-from datetime import datetime
-
-
+sys.path.append('/usr/local/airflow/dags')
 
 
 
@@ -27,76 +26,76 @@ with DAG(
 ) as dag1:
     t1 = DataTransferPostgres(
         config={'table': 'public.customer'},
-        query='select * from customer',
+        query='select * from customer limit 500000',
         task_id='customer',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str = connect['meta'],
     )
 
 
     t2 = DataTransferPostgres(
         config={'table': 'public.lineitem'},
-        query='select * from lineitem',
+        query='select * from lineitem limit 500000',
         task_id='lineitem',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
     t3 = DataTransferPostgres(
         config={'table': 'public.nation'},
-        query='select * from nation',
+        query='select * from nation limit 500000',
         task_id='nation',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'", 
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
     
     t4 = DataTransferPostgres(
         config={'table': 'public.orders'},
-        query='select * from orders',
+        query='select * from orders limit 500000',
         task_id='orders',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
     t5 = DataTransferPostgres(
         config={'table': 'public.part'},
-        query='select * from part',
+        query='select * from part limit 500000',
         task_id='part',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
 
     t6 = DataTransferPostgres(
         config={'table': 'public.partsupp'},
-        query='select * from partsupp',
+        query='select * from partsupp limit 500000',
         task_id='partsupp',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
     t7 = DataTransferPostgres(
         config={'table': 'public.region'},
-        query='select * from region',
+        query='select * from region limit 500000',
         task_id='region',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )
 
 
     t8 = DataTransferPostgres(
         config={'table': 'public.supplier'},
-        query='select * from supplier',
+        query='select * from supplier limit 500000',
         task_id='supplier',
-        source_pg_conn_str="host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
-        pg_conn_str="host='192.168.147.128' port=5433 dbname='my_database' user='root' password='postgres'",
-        pg_meta_conn_str = "host='192.168.147.128' port=54320 dbname='my_database' user='root' password='postgres'",
+        source_pg_conn_str=connect['src'],
+        pg_conn_str=connect['dest'],
+        pg_meta_conn_str=connect['meta'],
     )

@@ -47,7 +47,7 @@ class DataFlowBaseOperator(BaseOperator):
                      , '{column}' as column_name
                      , {cnt_nulls} as cnt_nulls
                      , {cnt_all} as cnt_all
-                     , {launch_id} as launch_id
+                     , {job_id} as launch_id
             )
             select table_name
                  , column_name
@@ -57,6 +57,7 @@ class DataFlowBaseOperator(BaseOperator):
               from x left join log l
                 on x.launch_id = l.target_launch_id
             '''
+            logging.info(f'Local **config : ( {config} ) \n Class **self.config : ( {self.config} )')
             cursor.execute(query.format(**self.config))
             conn.commit()
 
@@ -70,7 +71,7 @@ class DataFlowBaseOperator(BaseOperator):
                 and target_schema = '{target_schema}'
                 and source_launch_id = -1
             '''
-            cursor.execute(query.format(**config))
+            cursor.execute(query.format(**self.config))
             dates = cursor.fetchone()[0]
         if dates:
             return dates

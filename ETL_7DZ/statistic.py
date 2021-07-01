@@ -73,6 +73,8 @@ class DataStatisticPostgres(DataFlowBaseOperator):
                         cnt_null_data = column_cursor.fetchone()[0]
                         column_cur.update(cnt_nulls=cnt_null_data)
                         self.config.update(cnt_nulls=cnt_null_data)
+                        logging.info(f' ===>  ERROR DataStatisticPostgres: {cnt_null_data}')
+                        self.log.info(f' ===>  ERROR DataStatisticPostgres: {cnt_null_data}')
                         logging.info(cnt_null_data)
                         self.log.info(cnt_null_data)
                         # -----------------------------------------------------------
